@@ -9,15 +9,26 @@ import com.attentive.androidsdk.AttentiveConfig;
 import com.attentive.androidsdk.AttentiveEventTracker;
 import com.attentive.androidsdk.UserIdentifiers;
 import com.attentive.androidsdk.creatives.Creative;
+import com.attentive.androidsdk.events.AddToCartEvent;
+import com.attentive.androidsdk.events.CustomEvent;
+import com.attentive.androidsdk.events.Item;
+import com.attentive.androidsdk.events.Order;
+import com.attentive.androidsdk.events.Price;
+import com.attentive.androidsdk.events.ProductViewEvent;
+import com.attentive.androidsdk.events.PurchaseEvent;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.UiThreadUtil;
 import com.facebook.react.module.annotations.ReactModule;
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Currency;
 import java.util.HashMap;
-import java.util.Locale;
+import java.util.List;
 import java.util.Map;
 
 @ReactModule(name = AttentiveReactNativeSdkModule.NAME)
@@ -101,6 +112,74 @@ public class AttentiveReactNativeSdkModule extends ReactContextBaseJavaModule {
     }
 
     attentiveConfig.identify(idsBuilder.build());
+  }
+
+  @ReactMethod
+  public void recordProductView(ReadableMap productViewAttrs) {
+    Log.i(TAG, "Sending product viewed event");
+
+    List<Item> items = buildItems(productViewAttrs.getArray("items"));
+    ProductViewEvent productViewEvent = new ProductViewEvent.Builder(items).build();
+
+    AttentiveEventTracker.getInstance().recordEvent(productViewEvent);
+  }
+
+  @ReactMethod
+  public void recordPurchase(ReadableMap purchaseAttrs) {
+    Log.i(TAG, "Sending purchase event");
+    Order order = new Order.Builder(purchaseAttrs.getMap("order").getString("id")).build();
+
+    List<Item> items = buildItems(purchaseAttrs.getArray("items"));
+    PurchaseEvent purchaseEvent = new PurchaseEvent.Builder(items, order).build();
+
+    AttentiveEventTracker.getInstance().recordEvent(purchaseEvent);
+  }
+
+  @ReactMethod
+  public void recordAddedToCart(ReadableMap addToCartAttrs) {
+    Log.i(TAG, "Sending add to cart event");
+
+    List<Item> items = buildItems(addToCartAttrs.getArray("items"));
+    AddToCartEvent addToCartEvent = new AddToCartEvent.Builder(items).build();
+
+    AttentiveEventTracker.getInstance().recordEvent(addToCartEvent);
+  }
+
+  @ReactMethod
+  public void recordCustomEvent(ReadableMap customEventAttrs) {
+    Log.i(TAG, "Sending custom event");
+    ReadableMap propertiesRawMap = customEventAttrs.getMap("properties");
+    if (propertiesRawMap == null) {
+      throw new IllegalArgumentException("The CustomEvent 'properties' field cannot be null.");
+    }
+    Map<String, String> properties = convertToStringMap(propertiesRawMap.toHashMap());
+    CustomEvent customEvent = new CustomEvent.Builder(customEventAttrs.getString("type"), properties).build();
+
+    AttentiveEventTracker.getInstance().recordEvent(customEvent);
+  }
+
+  private Map<String, String> convertToStringMap(Map<String, Object> inputMap) {
+    Map<String, String> outputMap = new HashMap<>();
+    for (Map.Entry<String, Object> entry : inputMap.entrySet()) {
+      outputMap.put(entry.getKey(), (String) entry.getValue());
+    }
+
+    return outputMap;
+  }
+
+  private List<Item> buildItems(ReadableArray rawItems) {
+    List<Item> items = new ArrayList<>();
+    for (int i = 0; i < rawItems.size(); i++) {
+      ReadableMap rawItem = rawItems.getMap(i);
+
+      ReadableMap priceMap = rawItem.getMap("price");
+      Price price = new Price.Builder(new BigDecimal(priceMap.getString("price")), Currency.getInstance(priceMap.getString("currency"))).build();
+
+      Item item = new Item.Builder(rawItem.getString("productId"), rawItem.getString("productVariantId"), price).build();
+      items.add(item);
+    }
+
+    return items;
   }
 
   private AttentiveConfig.Mode getModeEnumFromModeParam(String mode) {

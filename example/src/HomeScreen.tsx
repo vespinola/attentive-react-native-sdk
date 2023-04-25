@@ -14,6 +14,7 @@ const HomeScreen = ({ navigation }: HomeScreenProps) => {
   };
 
   const clearUser = () => {
+    // Call 'clearUser' if the current user logs out
     Attentive.clearUser();
   };
 

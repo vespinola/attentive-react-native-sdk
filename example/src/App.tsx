@@ -5,33 +5,28 @@
  * @format
  */
 
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import type { RootStackParamList } from './navTypes';
 import HomeScreen from './HomeScreen';
 import ProductScreen from './ProductScreen';
-import { Attentive, Mode } from 'attentive-react-native-sdk';
+import { Attentive, Mode, UserIdentifiers } from 'attentive-react-native-sdk';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function App(): JSX.Element {
-  const attentiveDomain = useContext(AttentiveDomainContext);
   useEffect(() => {
-    // 'initialize' should be the first Attentive code called
+    // 'initialize' should be called when the app starts
+    // 'initialize' should only be called once per app session
     Attentive.initialize({
-      attentiveDomain: 'YOUR_ATTENTIVE_DOMAIN',
+      attentiveDomain: 'games',
       mode: Mode.Production,
     });
-    Attentive.identifyUser({ phone: '+15556667777' });
-    // Attentive.identifyUser(identifiers);
-    // Attentive.triggerCreative();
-    // Attentive.clearUser();
-    // Attentive.trackEvent(event);
-    // When the app starts up, send the user's identifiers to Attentive ASAP to improve the
-    // functionality of the Attentive Creative
-    /*
-    const identifiers = {
+
+    // Identify the current user as soon as possible. All of the identifiers are optional. 
+    // The more you pass, the better our SDK functions.
+    const identifiers : UserIdentifiers = {
       'phone': '+15556667777',
       'email': 'some_email@gmailfake.com',
       'klaviyoId': 'userKlaviyoId',
@@ -39,9 +34,8 @@ function App(): JSX.Element {
       'clientUserId': 'userClientUserId',
       'customIdentifiers': { 'customIdKey': 'customIdValue' }
     };
-    AttentiveCreativeModule.identify(identifiers);
-    */
-  }, [attentiveDomain]);
+    Attentive.identifyUser(identifiers);
+  }, []);
 
   return (
     <NavigationContainer>

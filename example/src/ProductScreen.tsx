@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { Alert, Button, Text, View, Image } from 'react-native';
 import type { ProductScreenProps } from './navTypes';
+import { Attentive, AddToCartEvent, PurchaseEvent, ProductViewEvent, CustomEvent } from 'attentive-react-native-sdk';
 
 const ProductScreen = ({}: ProductScreenProps) => {
-  /*
   const getItems = () => {
     return {
       items: [
@@ -18,46 +18,48 @@ const ProductScreen = ({}: ProductScreenProps) => {
       ],
     };
   };
-  */
 
   useEffect(() => {
-    /*
-    const productViewAttrs = {
+    const productViewAttrs : ProductViewEvent = {
       ...getItems(),
     };
-    */
-    // TODO
-    //AttentiveEventTrackingModule.productViewed(productViewAttrs);
+
+    Attentive.recordProductViewEvent(productViewAttrs);
 
     Alert.alert('Product View event recorded');
   }, []);
 
   const addToCart = () => {
-    /*
-    const addToCartAttrs = {
+    const addToCartAttrs : AddToCartEvent = {
       ...getItems(),
     };
-    */
-    // TODO
-    //AttentiveEventTrackingModule.addedToCart(addToCartAttrs);
+    Attentive.recordAddToCartEvent(addToCartAttrs);
 
     Alert.alert('Add to Cart event recorded');
   };
 
   const purchase = () => {
-    /*
-    const purchaseAttrs = {
+    const purchaseAttrs : PurchaseEvent = {
       ...getItems(),
       order: {
-        id: '8989',
+        orderId: '8989',
       },
     };
-    */
-    // TODO
-    //AttentiveEventTrackingModule.purchased(purchaseAttrs);
+    Attentive.recordPurchaseEvent(purchaseAttrs);
 
     Alert.alert('Purchase event recorded');
   };
+
+  const customEvent = () => {
+    const customEventAttrs : CustomEvent = {
+      type: "Added to Wishlist",
+      properties: {"lastName": "Christmas List"}
+    }
+
+    Attentive.recordCustomEvent(customEventAttrs);
+
+    Alert.alert('Custom event recorded');
+  }
 
   return (
     <View style={{ flex: 1 }}>
@@ -65,6 +67,7 @@ const ProductScreen = ({}: ProductScreenProps) => {
       <Text>T-Shirt</Text>
       <Button title="Add to Cart" color="#841584" onPress={addToCart} />
       <Button title="Purchase" onPress={purchase} />
+      <Button title="Add to Wishlist" onPress={customEvent} />
     </View>
   );
 };

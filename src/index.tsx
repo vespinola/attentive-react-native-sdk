@@ -1,4 +1,7 @@
 import { NativeModules, Platform } from 'react-native';
+import type { AddToCartEvent, ProductViewEvent, PurchaseEvent, CustomEvent } from './eventTypes'
+
+export type * from './eventTypes'
 
 const LINKING_ERROR =
   `The package 'attentive-react-native-sdk' doesn't seem to be linked. Make sure: \n\n` +
@@ -33,12 +36,7 @@ export type UserIdentifiers = {
   klaviyoId?: string;
   shopifyId?: string;
   clientUserId?: string;
-  customIdentifiers?: UserIdentifierCustomIdentifier;
-};
-
-export type UserIdentifierCustomIdentifier = {
-  key: string;
-  value: string;
+  customIdentifiers?: { [key: string]: string };
 };
 
 export class Attentive {
@@ -56,5 +54,21 @@ export class Attentive {
 
   static triggerCreative(): void {
     AttentiveReactNativeSdk.triggerCreative();
+  }
+
+  static recordProductViewEvent(productViewEvent : ProductViewEvent): void {
+    AttentiveReactNativeSdk.recordProductView(productViewEvent);
+  }
+
+  static recordAddToCartEvent(addToCartEvent : AddToCartEvent): void {
+    AttentiveReactNativeSdk.recordAddToCartEvent(addToCartEvent);
+  }
+
+  static recordPurchaseEvent(purchaseEvent : PurchaseEvent): void {
+    AttentiveReactNativeSdk.recordPurchaseEvent(purchaseEvent);
+  }
+
+  static recordCustomEvent(customEvent : CustomEvent): void {
+    AttentiveReactNativeSdk.recordCustomEvent(customEvent);
   }
 }
