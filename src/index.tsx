@@ -57,7 +57,7 @@ export class Attentive {
   }
 
   static recordProductViewEvent(productViewEvent : ProductViewEvent): void {
-    AttentiveReactNativeSdk.recordProductView(productViewEvent);
+    AttentiveReactNativeSdk.recordProductViewEvent(productViewEvent);
   }
 
   static recordAddToCartEvent(addToCartEvent : AddToCartEvent): void {

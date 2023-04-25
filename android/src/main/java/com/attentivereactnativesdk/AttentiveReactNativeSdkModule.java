@@ -115,7 +115,7 @@ public class AttentiveReactNativeSdkModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
-  public void recordProductView(ReadableMap productViewAttrs) {
+  public void recordProductViewEvent(ReadableMap productViewAttrs) {
     Log.i(TAG, "Sending product viewed event");
 
     List<Item> items = buildItems(productViewAttrs.getArray("items"));
@@ -125,9 +125,9 @@ public class AttentiveReactNativeSdkModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
-  public void recordPurchase(ReadableMap purchaseAttrs) {
+  public void recordPurchaseEvent(ReadableMap purchaseAttrs) {
     Log.i(TAG, "Sending purchase event");
-    Order order = new Order.Builder(purchaseAttrs.getMap("order").getString("id")).build();
+    Order order = new Order.Builder(purchaseAttrs.getMap("order").getString("orderId")).build();
 
     List<Item> items = buildItems(purchaseAttrs.getArray("items"));
     PurchaseEvent purchaseEvent = new PurchaseEvent.Builder(items, order).build();
@@ -136,7 +136,7 @@ public class AttentiveReactNativeSdkModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
-  public void recordAddedToCart(ReadableMap addToCartAttrs) {
+  public void recordAddToCartEvent(ReadableMap addToCartAttrs) {
     Log.i(TAG, "Sending add to cart event");
 
     List<Item> items = buildItems(addToCartAttrs.getArray("items"));

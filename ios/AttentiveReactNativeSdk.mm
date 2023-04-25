@@ -23,7 +23,7 @@ RCT_EXPORT_METHOD(triggerCreative) {
   dispatch_async(dispatch_get_main_queue(), ^{
     UIWindow *window = [[UIApplication sharedApplication] keyWindow];
     UIView *topView = window.rootViewController.view;
-    [_sdk trigger:topView];
+    [self->_sdk trigger:topView];
   });
 }
 
@@ -36,28 +36,28 @@ RCT_EXPORT_METHOD(clearUser) {
   [_sdk clearUser];
 }
 
-/*
-
-Not hooked up yet, so commenting out
-
-
-RCT_EXPORT_METHOD(addedToCart:(NSDictionary*)attrs) {
+RCT_EXPORT_METHOD(recordAddToCartEvent:(NSDictionary*)attrs) {
   NSArray* items = [self parseItems:attrs[@"items"]];
   ATTNAddToCartEvent* event = [[ATTNAddToCartEvent alloc] initWithItems:items];
   [[ATTNEventTracker sharedInstance] recordEvent:event];
 }
 
-RCT_EXPORT_METHOD(productViewed:(NSDictionary*)attrs) {
+RCT_EXPORT_METHOD(recordProductViewEvent:(NSDictionary*)attrs) {
   NSArray* items = [self parseItems:attrs[@"items"]];
   ATTNProductViewEvent* event = [[ATTNProductViewEvent alloc] initWithItems:items];
   [[ATTNEventTracker sharedInstance] recordEvent:event];
 }
 
-RCT_EXPORT_METHOD(purchased:(NSDictionary*)attrs) {
+RCT_EXPORT_METHOD(recordPurchaseEvent:(NSDictionary*)attrs) {
   NSArray* items = [self parseItems:attrs[@"items"]];
   ATTNOrder* order = [[ATTNOrder alloc] initWithOrderId:attrs[@"order"][@"id"]];
   ATTNPurchaseEvent* event = [[ATTNPurchaseEvent alloc] initWithItems:items order:order];
   [[ATTNEventTracker sharedInstance] recordEvent:event];
+}
+
+RCT_EXPORT_METHOD(recordCustomEvent:(NSDictionary*)attrs) {
+  ATTNCustomEvent* customEvent = [[ATTNCustomEvent alloc] initWithType:attrs[@"type"] properties:attrs[@"properties"]];
+  [[ATTNEventTracker sharedInstance] recordEvent:customEvent];
 }
 
 - (NSArray*)parseItems:(NSArray*)rawItems {
@@ -72,8 +72,6 @@ RCT_EXPORT_METHOD(purchased:(NSDictionary*)attrs) {
   }
   return itemsToReturn;
 }
-
-*/
 
 // Don't compile this code when we build for the old architecture.
 #ifdef RCT_NEW_ARCH_ENABLED
