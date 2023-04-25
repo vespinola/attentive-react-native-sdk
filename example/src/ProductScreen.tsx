@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Alert, Button, Text, View, Image } from 'react-native';
 import type { ProductScreenProps } from './navTypes';
-import { Attentive, AddToCartEvent, PurchaseEvent, ProductViewEvent, CustomEvent } from 'attentive-react-native-sdk';
+import { Attentive, AddToCartEvent, PurchaseEvent, ProductViewEvent, CustomEvent, Item } from 'attentive-react-native-sdk';
 
 const ProductScreen = ({}: ProductScreenProps) => {
   const getItems = () => {

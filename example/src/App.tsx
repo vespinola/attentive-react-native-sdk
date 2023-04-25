@@ -11,28 +11,29 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import type { RootStackParamList } from './navTypes';
 import HomeScreen from './HomeScreen';
 import ProductScreen from './ProductScreen';
-import { Attentive, Mode, UserIdentifiers } from 'attentive-react-native-sdk';
+import { Attentive, AttentiveConfiguration, Mode, UserIdentifiers } from 'attentive-react-native-sdk';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function App(): JSX.Element {
   useEffect(() => {
-    // 'initialize' should be called when the app starts
-    // 'initialize' should only be called once per app session
-    Attentive.initialize({
+    const config : AttentiveConfiguration = {
       attentiveDomain: 'games',
       mode: Mode.Production,
-    });
+    }
+    // 'initialize' should be called when the app starts
+    // 'initialize' should only be called once per app session
+    Attentive.initialize(config);
 
     // Identify the current user as soon as possible. All of the identifiers are optional. 
     // The more you pass, the better our SDK functions.
     const identifiers : UserIdentifiers = {
-      'phone': '+15556667777',
-      'email': 'some_email@gmailfake.com',
-      'klaviyoId': 'userKlaviyoId',
-      'shopifyId': 'userShopifyId',
-      'clientUserId': 'userClientUserId',
-      'customIdentifiers': { 'customIdKey': 'customIdValue' }
+      phone: '+15556667777',
+      email: 'some_email@gmailfake.com',
+      klaviyoId: 'userKlaviyoId',
+      shopifyId: 'userShopifyId',
+      clientUserId: 'userClientUserId',
+      customIdentifiers: { 'customIdKey': 'customIdValue' }
     };
     Attentive.identifyUser(identifiers);
   }, []);
