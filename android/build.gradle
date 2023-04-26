@@ -1,0 +1,92 @@
+buildscript {
+  repositories {
+    google()
+    mavenCentral()
+  }
+
+  dependencies {
+    classpath "com.android.tools.build:gradle:7.2.1"
+  }
+}
+
+def isNewArchitectureEnabled() {
+  return rootProject.hasProperty("newArchEnabled") && rootProject.getProperty("newArchEnabled") == "true"
+}
+
+apply plugin: "com.android.library"
+
+
+def appProject = rootProject.allprojects.find { it.plugins.hasPlugin('com.android.application') }
+
+if (isNewArchitectureEnabled()) {
+  apply plugin: "com.facebook.react"
+}
+
+def getExtOrDefault(name) {
+  return rootProject.ext.has(name) ? rootProject.ext.get(name) : project.properties["AttentiveReactNativeSdk_" + name]
+}
+
+def getExtOrIntegerDefault(name) {
+  return rootProject.ext.has(name) ? rootProject.ext.get(name) : (project.properties["AttentiveReactNativeSdk_" + name]).toInteger()
+}
+
+android {
+  compileSdkVersion getExtOrIntegerDefault("compileSdkVersion")
+
+  defaultConfig {
+    minSdkVersion getExtOrIntegerDefault("minSdkVersion")
+    targetSdkVersion getExtOrIntegerDefault("targetSdkVersion")
+    buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
+  }
+  buildTypes {
+    release {
+      minifyEnabled false
+    }
+  }
+
+  lintOptions {
+    disable "GradleCompatible"
+  }
+
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
+  }
+
+}
+
+Properties ghProperties = new Properties()
+File ghPropertiesFile = file("github.properties")
+if (!ghPropertiesFile.exists()) {
+  throw new GradleException('Could not find github.properties file.')
+}
+ghProperties.load(ghPropertiesFile.newDataInputStream())
+
+repositories {
+  mavenCentral()
+  google()
+  maven {
+    url = uri("https://maven.pkg.github.com/attentive-mobile/attentive-android-sdk")
+    credentials {
+      username = ghProperties.getProperty('gpr.user')
+      password = ghProperties.getProperty('gpr.key')
+    }
+  }
+}
+
+
+dependencies {
+  // For < 0.71, this will be from the local maven repo
+  // For > 0.71, this will be replaced by `com.facebook.react:react-android:$version` by react gradle plugin
+  //noinspection GradleDynamicVersion
+  implementation "com.facebook.react:react-native:+"
+  implementation 'com.attentive:attentive-android-sdk:0.4.0'
+}
+
+if (isNewArchitectureEnabled()) {
+  react {
+    jsRootDir = file("../src/")
+    libraryName = "AttentiveReactNativeSdk"
+    codegenJavaPackageName = "com.attentivereactnativesdk"
+  }
+}
