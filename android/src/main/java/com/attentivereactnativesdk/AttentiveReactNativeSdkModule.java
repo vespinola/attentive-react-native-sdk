@@ -24,11 +24,13 @@ import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.UiThreadUtil;
 import com.facebook.react.module.annotations.ReactModule;
 import java.math.BigDecimal;
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Currency;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 @ReactModule(name = AttentiveReactNativeSdkModule.NAME)
@@ -50,9 +52,12 @@ public class AttentiveReactNativeSdkModule extends ReactContextBaseJavaModule {
 
   @ReactMethod
   public void initialize(ReadableMap config) {
+    final String rawMode = config.getString("mode");
+    if (rawMode == null) {
+      throw new IllegalArgumentException("The 'mode' parameter cannot be null.");
+    }
     final String domain = config.getString("attentiveDomain");
-    final AttentiveConfig.Mode mode =  getModeEnumFromModeParam(config.getString("mode"));
-    attentiveConfig = new AttentiveConfig(domain, mode, this.getReactApplicationContext());
+    attentiveConfig = new AttentiveConfig(domain, AttentiveConfig.Mode.valueOf(rawMode.toUpperCase(Locale.ROOT)), this.getReactApplicationContext());
     AttentiveEventTracker.getInstance().initialize(attentiveConfig);
   }
 
@@ -83,7 +88,7 @@ public class AttentiveReactNativeSdkModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
-  public void identifyUser(ReadableMap identifiers) {
+  public void identify(ReadableMap identifiers) {
     UserIdentifiers.Builder idsBuilder = new UserIdentifiers.Builder();
     if (identifiers.hasKey("phone")) {
       idsBuilder.withPhone(identifiers.getString("phone"));
@@ -161,7 +166,13 @@ public class AttentiveReactNativeSdkModule extends ReactContextBaseJavaModule {
   private Map<String, String> convertToStringMap(Map<String, Object> inputMap) {
     Map<String, String> outputMap = new HashMap<>();
     for (Map.Entry<String, Object> entry : inputMap.entrySet()) {
-      outputMap.put(entry.getKey(), (String) entry.getValue());
+      Object entryValue = entry.getValue();
+      if (entryValue == null) {
+        throw new InvalidParameterException(String.format("The key '%s' has a null value.", entry.getKey()));
+      }
+      if (entryValue instanceof String) {
+        outputMap.put(entry.getKey(), (String) entry.getValue());
+      }
     }
 
     return outputMap;
@@ -180,15 +191,5 @@ public class AttentiveReactNativeSdkModule extends ReactContextBaseJavaModule {
     }
 
     return items;
-  }
-
-  private AttentiveConfig.Mode getModeEnumFromModeParam(String mode) {
-    for (AttentiveConfig.Mode modeOption : AttentiveConfig.Mode.values()) {
-      if (modeOption.toString().equalsIgnoreCase(mode)) {
-        return modeOption;
-      }
-    }
-
-    throw new IllegalArgumentException(String.format("Invalid mode parameter. Value was '%s' and valid values are '%s'", mode, Arrays.toString(AttentiveConfig.Mode.values())));
   }
 }

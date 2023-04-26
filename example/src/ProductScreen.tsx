@@ -1,7 +1,13 @@
 import React, { useEffect } from 'react';
 import { Alert, Button, Text, View, Image } from 'react-native';
 import type { ProductScreenProps } from './navTypes';
-import { Attentive, AddToCartEvent, PurchaseEvent, ProductViewEvent, CustomEvent, Item } from 'attentive-react-native-sdk';
+import {
+  Attentive,
+  AddToCartEvent,
+  PurchaseEvent,
+  ProductViewEvent,
+  CustomEvent,
+} from 'attentive-react-native-sdk';
 
 const ProductScreen = ({}: ProductScreenProps) => {
   const getItems = () => {
@@ -20,7 +26,7 @@ const ProductScreen = ({}: ProductScreenProps) => {
   };
 
   useEffect(() => {
-    const productViewAttrs : ProductViewEvent = {
+    const productViewAttrs: ProductViewEvent = {
       ...getItems(),
     };
 
@@ -30,7 +36,7 @@ const ProductScreen = ({}: ProductScreenProps) => {
   }, []);
 
   const addToCart = () => {
-    const addToCartAttrs : AddToCartEvent = {
+    const addToCartAttrs: AddToCartEvent = {
       ...getItems(),
     };
     Attentive.recordAddToCartEvent(addToCartAttrs);
@@ -39,7 +45,7 @@ const ProductScreen = ({}: ProductScreenProps) => {
   };
 
   const purchase = () => {
-    const purchaseAttrs : PurchaseEvent = {
+    const purchaseAttrs: PurchaseEvent = {
       ...getItems(),
       order: {
         orderId: '8989',
@@ -51,15 +57,15 @@ const ProductScreen = ({}: ProductScreenProps) => {
   };
 
   const customEvent = () => {
-    const customEventAttrs : CustomEvent = {
-      type: "Added to Wishlist",
-      properties: {"lastName": "Christmas List"}
-    }
+    const customEventAttrs: CustomEvent = {
+      type: 'Added to Wishlist',
+      properties: { lastName: 'Christmas List' },
+    };
 
     Attentive.recordCustomEvent(customEventAttrs);
 
     Alert.alert('Custom event recorded');
-  }
+  };
 
   return (
     <View style={{ flex: 1 }}>

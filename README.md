@@ -56,7 +56,7 @@ const identifiers : UserIdentifiers = {
   'clientUserId': 'userClientUserId',
   'customIdentifiers': { 'customIdKey': 'customIdValue' }
 };
-Attentive.identifyUser(identifiers);
+Attentive.identify(identifiers);
 ```
 
 The more identifiers that are passed to `identify`, the better the SDK will function. Here is the list of possible identifiers:
@@ -87,7 +87,7 @@ __*** NOTE: You must call the destroy method when the creative is no longer in u
 
 The SDK currently supports `PurchaseEvent`, `AddToCartEvent`, `ProductViewEvent`, and `CustomEvent`.
 
-```java
+```typescript
 // Construct one or more "Item"s, which represents the product(s) purchased
 const items : Item[] = [
         {
@@ -128,12 +128,12 @@ The process is similar for the other events. See [eventTypes.tsx](https://github
 
 ```typescript
 // If new identifiers are available for the user, register them
-Attentive.identifyUser({email: 'theusersemail@gmail.com'});
+Attentive.identify({email: 'theusersemail@gmail.com'});
 ```
 
 ```typescript
-Attentive.identifyUser({email: 'theusersemail@gmail.com'});
-Attentive.identifyUser({phone: '+15556667777'};)
+Attentive.identify({email: 'theusersemail@gmail.com'});
+Attentive.identify({phone: '+15556667777'};)
 // The SDK will have these two identifiers:
 //   email: 'theusersemail@gmail.com'
 //   phone: '+15556667777'

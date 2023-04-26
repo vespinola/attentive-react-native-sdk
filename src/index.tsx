@@ -1,7 +1,12 @@
 import { NativeModules, Platform } from 'react-native';
-import type { AddToCartEvent, ProductViewEvent, PurchaseEvent, CustomEvent } from './eventTypes'
+import type {
+  AddToCartEvent,
+  ProductViewEvent,
+  PurchaseEvent,
+  CustomEvent,
+} from './eventTypes';
 
-export type * from './eventTypes'
+export type * from './eventTypes';
 
 const LINKING_ERROR =
   `The package 'attentive-react-native-sdk' doesn't seem to be linked. Make sure: \n\n` +
@@ -44,8 +49,8 @@ export class Attentive {
     AttentiveReactNativeSdk.initialize(configuration);
   }
 
-  static identifyUser(userIdentifiers: UserIdentifiers): void {
-    AttentiveReactNativeSdk.identifyUser(userIdentifiers);
+  static identify(userIdentifiers: UserIdentifiers): void {
+    AttentiveReactNativeSdk.identify(userIdentifiers);
   }
 
   static clearUser(): void {
@@ -56,19 +61,19 @@ export class Attentive {
     AttentiveReactNativeSdk.triggerCreative();
   }
 
-  static recordProductViewEvent(productViewEvent : ProductViewEvent): void {
+  static recordProductViewEvent(productViewEvent: ProductViewEvent): void {
     AttentiveReactNativeSdk.recordProductViewEvent(productViewEvent);
   }
 
-  static recordAddToCartEvent(addToCartEvent : AddToCartEvent): void {
+  static recordAddToCartEvent(addToCartEvent: AddToCartEvent): void {
     AttentiveReactNativeSdk.recordAddToCartEvent(addToCartEvent);
   }
 
-  static recordPurchaseEvent(purchaseEvent : PurchaseEvent): void {
+  static recordPurchaseEvent(purchaseEvent: PurchaseEvent): void {
     AttentiveReactNativeSdk.recordPurchaseEvent(purchaseEvent);
   }
 
-  static recordCustomEvent(customEvent : CustomEvent): void {
+  static recordCustomEvent(customEvent: CustomEvent): void {
     AttentiveReactNativeSdk.recordCustomEvent(customEvent);
   }
 }
