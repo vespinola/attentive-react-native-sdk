@@ -6,8 +6,6 @@ import type {
   CustomEvent,
 } from './eventTypes';
 
-export type * from './eventTypes';
-
 const LINKING_ERROR =
   `The package 'attentive-react-native-sdk' doesn't seem to be linked. Make sure: \n\n` +
   Platform.select({ ios: "- You have run 'pod install'\n", default: '' }) +
