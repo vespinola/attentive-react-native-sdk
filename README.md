@@ -70,18 +70,11 @@ The more identifiers that are passed to `identify`, the better the SDK will func
 | Custom Identifiers | Map<String,String>    | Key-value pairs of custom identifier names and values. The values should be unique to this user.                        |
 
 ### Load the Creative
-#### 1. Create the Creative
+
 ```typescript
 // Trigger the Creative. This will show the Creative as a pop-up over the rest of the app.
 Attentive.triggerCreative();
 ```
-
-#### 3. Destroy the Creative
-
-TODO
-
-__*** NOTE: You must call the destroy method when the creative is no longer in use to properly clean up the WebView and it's resources ***__
-
 
 ### Record user events
 
