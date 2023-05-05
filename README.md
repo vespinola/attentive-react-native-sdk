@@ -5,7 +5,7 @@ The Attentive React Native SDK provides the functionality to render Attentive cr
 
 ## Installation
 
-Run `@attentive-mobile/attentive-react-native-sdk` from your app's root directory.
+Run `npm install @attentive-mobile/attentive-react-native-sdk` from your app's root directory.
 
 ## Usage
 See the [Example Project](https://github.com/attentive-mobile/attentive-react-native-sdk/blob/main/example)
