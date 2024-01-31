@@ -13,14 +13,14 @@ import {
   AttentiveConfiguration,
   Mode,
   UserIdentifiers,
-} from 'attentive-react-native-sdk';
+} from '@attentive-mobile/attentive-react-native-sdk';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function App(): JSX.Element {
   useEffect(() => {
     const config: AttentiveConfiguration = {
-      attentiveDomain: 'YOUR_ATTENTIVE_DOMAIN',
+      attentiveDomain: 'games',
       mode: Mode.Production,
     };
     // 'initialize' should be called when the app starts

@@ -1,6 +1,6 @@
 PODS:
   - attentive-ios-sdk (0.4.0)
-  - attentive-react-native-sdk (0.1.0):
+  - attentive-react-native-sdk (0.4.1):
     - attentive-ios-sdk (= 0.4.0)
     - React-Core
   - boost (1.76.0)
@@ -592,7 +592,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   attentive-ios-sdk: 863a2d351321ba7dc8754526b7bd11c8a74c0487
-  attentive-react-native-sdk: 4ac5285724ee727111485f8c593484f185a9f7eb
+  attentive-react-native-sdk: 8b50fde9548132bea43ff2416eccaeb44bab0c5b
   boost: 57d2868c099736d80fcd648bf211b4431e51a558
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   DoubleConversion: 5189b271737e1565bdce30deb4a08d647e3f5f54
@@ -647,4 +647,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 5cce203ca7e9458c32cdf44c8ad45d2cb0a8012f
 
-COCOAPODS: 1.11.3
+COCOAPODS: 1.14.3
