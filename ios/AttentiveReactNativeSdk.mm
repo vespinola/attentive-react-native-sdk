@@ -27,6 +27,12 @@ RCT_EXPORT_METHOD(triggerCreative) {
   });
 }
 
+RCT_EXPORT_METHOD(destroyCreative) {
+  dispatch_async(dispatch_get_main_queue(), ^{
+//    [self->_sdk closeCreative]
+  });
+}
+
 RCT_EXPORT_METHOD(identify:(NSDictionary*)identifiers) {
   // The dictionary already has the correct keys from the React code, so no translating necessary
   [_sdk identify:identifiers];
