@@ -432,7 +432,7 @@ PODS:
     - Yoga (~> 1.14)
 
 DEPENDENCIES:
-  - attentive-react-native-sdk (from `../..`)
+  - "attentive-react-native-sdk (from `../node_modules/@attentive-mobile/attentive-react-native-sdk`)"
   - boost (from `../node_modules/react-native/third-party-podspecs/boost.podspec`)
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
@@ -516,7 +516,7 @@ SPEC REPOS:
 
 EXTERNAL SOURCES:
   attentive-react-native-sdk:
-    :path: "../.."
+    :path: "../node_modules/@attentive-mobile/attentive-react-native-sdk"
   boost:
     :podspec: "../node_modules/react-native/third-party-podspecs/boost.podspec"
   DoubleConversion:

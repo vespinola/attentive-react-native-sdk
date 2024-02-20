@@ -59,6 +59,10 @@ export class Attentive {
     AttentiveReactNativeSdk.triggerCreative();
   }
 
+  static destroyCreative(): void {
+    AttentiveReactNativeSdk.destroyCreative();
+  }
+
   static recordProductViewEvent(productViewEvent: ProductViewEvent): void {
     AttentiveReactNativeSdk.recordProductViewEvent(productViewEvent);
   }
@@ -75,3 +79,5 @@ export class Attentive {
     AttentiveReactNativeSdk.recordCustomEvent(customEvent);
   }
 }
+
+export type { AddToCartEvent, ProductViewEvent, PurchaseEvent, CustomEvent };
