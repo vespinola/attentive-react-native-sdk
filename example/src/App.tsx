@@ -20,7 +20,7 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 function App(): JSX.Element {
   useEffect(() => {
     const config: AttentiveConfiguration = {
-      attentiveDomain: 'games',
+      attentiveDomain: 'YOUR_ATTENTIVE_DOMAIN',
       mode: Mode.Production,
     };
     // 'initialize' should be called when the app starts
