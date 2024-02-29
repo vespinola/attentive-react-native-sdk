@@ -7,7 +7,7 @@ import {
   PurchaseEvent,
   ProductViewEvent,
   CustomEvent,
-} from 'attentive-react-native-sdk';
+} from '@attentive-mobile/attentive-react-native-sdk';
 
 const ProductScreen = ({}: ProductScreenProps) => {
   const getItems = () => {

@@ -39,6 +39,7 @@ public class AttentiveReactNativeSdkModule extends ReactContextBaseJavaModule {
   private static final String TAG = NAME;
 
   private AttentiveConfig attentiveConfig;
+  private Creative creative;
 
   public AttentiveReactNativeSdkModule(ReactApplicationContext reactContext) {
     super(reactContext);
@@ -71,7 +72,7 @@ public class AttentiveReactNativeSdkModule extends ReactContextBaseJavaModule {
           (ViewGroup) currentActivity.getWindow().getDecorView().getRootView();
         // The following calls edit the view hierarchy so they must run on the UI thread
         UiThreadUtil.runOnUiThread(() -> {
-          Creative creative = new Creative(attentiveConfig, rootView);
+          creative = new Creative(attentiveConfig, rootView);
           creative.trigger();
         });
       } else {
@@ -79,6 +80,16 @@ public class AttentiveReactNativeSdkModule extends ReactContextBaseJavaModule {
       }
     } catch (Exception e) {
       Log.e(TAG, "Exception when triggering the creative: " + e);
+    }
+  }
+
+  @ReactMethod
+  public void destroyCreative() {
+    if (creative != null) {
+      UiThreadUtil.runOnUiThread(() -> {
+        creative.destroy();
+        creative = null;
+      });
     }
   }
 

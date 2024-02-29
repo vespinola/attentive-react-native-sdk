@@ -13,7 +13,7 @@ import {
   AttentiveConfiguration,
   Mode,
   UserIdentifiers,
-} from 'attentive-react-native-sdk';
+} from '@attentive-mobile/attentive-react-native-sdk';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 

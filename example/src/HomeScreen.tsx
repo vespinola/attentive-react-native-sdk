@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Text, View } from 'react-native';
-import { Attentive } from 'attentive-react-native-sdk';
+import { Attentive } from '@attentive-mobile/attentive-react-native-sdk';
 
 import type { HomeScreenProps } from './navTypes';
 
