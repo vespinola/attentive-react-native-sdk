@@ -44,6 +44,13 @@ const config : AttentiveConfiguration = {
 Attentive.initialize(config);
 ```
 
+### Destroy the creative
+
+```typescript
+// This will remove the creative along with its web view
+Attentive.destroyCreative();
+```
+
 
 ### Identify the current user
 ```typescript
@@ -66,7 +73,7 @@ The more identifiers that are passed to `identify`, the better the SDK will func
 | Phone              | String                | The users's phone number in E.164 format                                                                                |
 | Email              | String                | The users's email                                                                                                       |
 | Shopify ID         | String                | The users's Shopify ID                                                                                                  |
-| Klaviyo ID         | String                | The users's Klaviyo ID                                                                                                  | 
+| Klaviyo ID         | String                | The users's Klaviyo ID                                                                                                  |
 | Custom Identifiers | Map<String,String>    | Key-value pairs of custom identifier names and values. The values should be unique to this user.                        |
 
 ### Load the Creative
