@@ -31,6 +31,7 @@ export enum Mode {
 export type AttentiveConfiguration = {
   attentiveDomain: string;
   mode: Mode;
+  skipFatigueOnCreatives?: boolean;
 };
 
 export type UserIdentifiers = {

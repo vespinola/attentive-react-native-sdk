@@ -58,11 +58,16 @@ public class AttentiveReactNativeSdkModule extends ReactContextBaseJavaModule {
     if (rawMode == null) {
       throw new IllegalArgumentException("The 'mode' parameter cannot be null.");
     }
+
     final String domain = config.getString("attentiveDomain");
+    final Boolean skipFatigue = config.hasKey("skipFatigueOnCreatives") ?
+      config.getBoolean("skipFatigueOnCreatives") : false;
+
     attentiveConfig = new AttentiveConfig.Builder()
         .context(this.getReactApplicationContext())
         .domain(domain)
         .mode(AttentiveConfig.Mode.valueOf(rawMode.toUpperCase(Locale.ROOT)))
+        .skipFatigueOnCreatives(skipFatigue)
         .build();
     AttentiveEventTracker.getInstance().initialize(attentiveConfig);
   }
