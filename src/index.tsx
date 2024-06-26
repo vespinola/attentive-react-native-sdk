@@ -55,8 +55,8 @@ export class Attentive {
     AttentiveReactNativeSdk.clearUser();
   }
 
-  static triggerCreative(): void {
-    AttentiveReactNativeSdk.triggerCreative();
+  static triggerCreative(creativeId: string | null = null): void {
+    AttentiveReactNativeSdk.triggerCreative(creativeId);
   }
 
   static destroyCreative(): void {

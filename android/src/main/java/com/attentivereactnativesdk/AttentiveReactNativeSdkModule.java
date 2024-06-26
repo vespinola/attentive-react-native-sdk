@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.util.Log;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.attentive.androidsdk.AttentiveConfig;
 import com.attentive.androidsdk.AttentiveEventTracker;
@@ -58,12 +59,21 @@ public class AttentiveReactNativeSdkModule extends ReactContextBaseJavaModule {
       throw new IllegalArgumentException("The 'mode' parameter cannot be null.");
     }
     final String domain = config.getString("attentiveDomain");
-    attentiveConfig = new AttentiveConfig(domain, AttentiveConfig.Mode.valueOf(rawMode.toUpperCase(Locale.ROOT)), this.getReactApplicationContext());
+    attentiveConfig = new AttentiveConfig.Builder()
+        .context(this.getReactApplicationContext())
+        .domain(domain)
+        .mode(AttentiveConfig.Mode.valueOf(rawMode.toUpperCase(Locale.ROOT)))
+        .build();
     AttentiveEventTracker.getInstance().initialize(attentiveConfig);
   }
 
   @ReactMethod
   public void triggerCreative() {
+    this.triggerCreative(null);
+  }
+
+  @ReactMethod
+  public void triggerCreative(@Nullable String creativeId) {
     Log.i(TAG, "Native Attentive module was called to trigger the creative.");
     try {
       Activity currentActivity = getReactApplicationContext().getCurrentActivity();
@@ -73,7 +83,7 @@ public class AttentiveReactNativeSdkModule extends ReactContextBaseJavaModule {
         // The following calls edit the view hierarchy so they must run on the UI thread
         UiThreadUtil.runOnUiThread(() -> {
           creative = new Creative(attentiveConfig, rootView);
-          creative.trigger();
+          creative.trigger(null, creativeId);
         });
       } else {
         Log.w(TAG, "Could not trigger the Attentive Creative because the current Activity was null");
