@@ -6,7 +6,13 @@
 //
 
 #import "AttentiveReactNativeSdk.h"
+
+#if __has_include(<AttentiveReactNativeSdk/AttentiveReactNativeSdk.h>)
 #import "AttentiveReactNativeSdk-Swift.h"
+#else
+// Load the headers from the attentive-ios-sdk Pod
+#import "attentive_react_native_sdk-Swift.h"
+#endif
 
 @implementation AttentiveReactNativeSdk {
     ATTNNativeSDK* _sdk;
