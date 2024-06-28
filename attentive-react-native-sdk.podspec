@@ -17,6 +17,8 @@ Pod::Spec.new do |s|
   s.source_files = "ios/**/*.{h,m,mm}"
 
   s.dependency 'attentive-ios-sdk', '0.6.0'
+  s.ios.deployment_target = '14.0'
+  s.swift_versions = ['5']
   s.dependency "React-Core"
 
   # Don't install the dependencies when we run `pod install` in the old architecture.
