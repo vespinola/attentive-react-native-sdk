@@ -9,32 +9,32 @@
 import Foundation
 import attentive_ios_sdk
 
-@objc class ATTNNativeSDK: NSObject {
+@objc public class ATTNNativeSDK: NSObject {
   private let sdk: ATTNSDK
 
   @objc(initWithDomain:mode:)
-  init(domain: String, mode: String) {
+  public init(domain: String, mode: String) {
     self.sdk = ATTNSDK(domain: domain, mode: ATTNSDKMode(rawValue: mode) ?? .production)
     ATTNEventTracker.setup(with: sdk)
   }
 
   @objc(trigger:)
-  func trigger(_ view: UIView) {
+  public func trigger(_ view: UIView) {
     sdk.trigger(view)
   }
 
   @objc(identify:)
-  func identify(_ identifiers: [String: Any]) {
+  public func identify(_ identifiers: [String: Any]) {
     sdk.identify(identifiers)
   }
 
   @objc
-  func clearUser() {
+  public func clearUser() {
     sdk.clearUser()
   }
 }
 
-extension ATTNNativeSDK {
+public extension ATTNNativeSDK {
   @objc
   func recordAddToCartEvent(_ attributes: [String: Any]) {
     let items = parseItems(attributes["items"] as? [[String : Any]] ?? [])
