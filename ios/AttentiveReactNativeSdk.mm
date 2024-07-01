@@ -6,17 +6,22 @@
 //
 
 #import "AttentiveReactNativeSdk.h"
-#import "attentive-sdk-umbrella.h"
+
+#if __has_include(<AttentiveReactNativeSdk-Swift.h>)
+#import "AttentiveReactNativeSdk-Swift.h"
+#else
+// Load the headers from the attentive-ios-sdk Pod
+#import "attentive_react_native_sdk-Swift.h"
+#endif
 
 @implementation AttentiveReactNativeSdk {
-    ATTNSDK* _sdk;
+    ATTNNativeSDK* _sdk;
 }
 
 RCT_EXPORT_MODULE()
 
 RCT_EXPORT_METHOD(initialize:(NSDictionary*)configuration) {
-    _sdk = [[ATTNSDK alloc] initWithDomain:configuration[@"attentiveDomain"] mode:configuration[@"mode"]];
-    [ATTNEventTracker setupWithSdk:_sdk];
+    _sdk = [[ATTNNativeSDK alloc] initWithDomain:configuration[@"attentiveDomain"] mode:configuration[@"mode"]];
 }
 
 RCT_EXPORT_METHOD(triggerCreative) {
@@ -43,40 +48,19 @@ RCT_EXPORT_METHOD(clearUser) {
 }
 
 RCT_EXPORT_METHOD(recordAddToCartEvent:(NSDictionary*)attrs) {
-  NSArray* items = [self parseItems:attrs[@"items"]];
-  ATTNAddToCartEvent* event = [[ATTNAddToCartEvent alloc] initWithItems:items];
-  [[ATTNEventTracker sharedInstance] recordEvent:event];
+  [_sdk recordAddToCartEvent:attrs];
 }
 
 RCT_EXPORT_METHOD(recordProductViewEvent:(NSDictionary*)attrs) {
-  NSArray* items = [self parseItems:attrs[@"items"]];
-  ATTNProductViewEvent* event = [[ATTNProductViewEvent alloc] initWithItems:items];
-  [[ATTNEventTracker sharedInstance] recordEvent:event];
+  [_sdk recordProductViewEvent:attrs];
 }
 
 RCT_EXPORT_METHOD(recordPurchaseEvent:(NSDictionary*)attrs) {
-  NSArray* items = [self parseItems:attrs[@"items"]];
-  ATTNOrder* order = [[ATTNOrder alloc] initWithOrderId:attrs[@"order"][@"id"]];
-  ATTNPurchaseEvent* event = [[ATTNPurchaseEvent alloc] initWithItems:items order:order];
-  [[ATTNEventTracker sharedInstance] recordEvent:event];
+  [_sdk recordPurchaseEvent:attrs];
 }
 
 RCT_EXPORT_METHOD(recordCustomEvent:(NSDictionary*)attrs) {
-  ATTNCustomEvent* customEvent = [[ATTNCustomEvent alloc] initWithType:attrs[@"type"] properties:attrs[@"properties"]];
-  [[ATTNEventTracker sharedInstance] recordEvent:customEvent];
-}
-
-- (NSArray*)parseItems:(NSArray*)rawItems {
-  NSMutableArray* itemsToReturn = [[NSMutableArray alloc] init];
-  for (NSDictionary* rawItem in rawItems) {
-    NSDictionary* rawPrice = rawItem[@"price"];
-    ATTNPrice* price = [[ATTNPrice alloc] initWithPrice:[[NSDecimalNumber alloc] initWithString:rawPrice[@"price"]] currency:rawPrice[@"currency"]];
-    
-    ATTNItem* item = [[ATTNItem alloc] initWithProductId:rawItem[@"productId"] productVariantId:rawItem[@"productVariantId"] price:price];
-    
-    [itemsToReturn addObject:item];
-  }
-  return itemsToReturn;
+  [_sdk recordCustomEvent:attrs];
 }
 
 // Don't compile this code when we build for the old architecture.
@@ -89,3 +73,4 @@ RCT_EXPORT_METHOD(recordCustomEvent:(NSDictionary*)attrs) {
 #endif
 
 @end
+
