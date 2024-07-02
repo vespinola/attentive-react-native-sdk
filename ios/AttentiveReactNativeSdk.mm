@@ -21,7 +21,7 @@
 RCT_EXPORT_MODULE()
 
 RCT_EXPORT_METHOD(initialize:(NSDictionary*)configuration) {
-    _sdk = [[ATTNNativeSDK alloc] initWithDomain:configuration[@"attentiveDomain"] mode:configuration[@"mode"]];
+    _sdk = [[ATTNNativeSDK alloc] initWithDomain:configuration[@"attentiveDomain"] mode:configuration[@"mode"] skipFatigueOnCreatives:configuration[@"skipFatigueOnCreatives"]];
 }
 
 RCT_EXPORT_METHOD(triggerCreative) {

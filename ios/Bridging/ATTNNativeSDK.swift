@@ -12,9 +12,10 @@ import attentive_ios_sdk
 @objc public class ATTNNativeSDK: NSObject {
   private let sdk: ATTNSDK
 
-  @objc(initWithDomain:mode:)
-  public init(domain: String, mode: String) {
+  @objc(initWithDomain:mode:skipFatigueOnCreatives:)
+  public init(domain: String, mode: String, skipFatigueOnCreatives: Bool) {
     self.sdk = ATTNSDK(domain: domain, mode: ATTNSDKMode(rawValue: mode) ?? .production)
+    self.sdk.skipFatigueOnCreative = skipFatigueOnCreatives ?? false
     ATTNEventTracker.setup(with: sdk)
   }
 
