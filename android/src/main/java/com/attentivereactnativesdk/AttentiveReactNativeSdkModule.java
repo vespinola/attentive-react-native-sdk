@@ -109,6 +109,11 @@ public class AttentiveReactNativeSdkModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
+  public void updateDomain(String domain) {
+    attentiveConfig.changeDomain(domain);
+  }
+
+  @ReactMethod
   public void clearUser() {
     attentiveConfig.clearUser();
   }
