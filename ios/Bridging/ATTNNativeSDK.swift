@@ -23,6 +23,11 @@ import attentive_ios_sdk
     sdk.trigger(view)
   }
 
+  @objc(trigger:creativeId:)
+  public func trigger(_ view: UIView, creativeId: String) {
+    sdk.trigger(view, creativeId:creativeId)
+  }
+
   @objc(identify:)
   public func identify(_ identifiers: [String: Any]) {
     sdk.identify(identifiers)

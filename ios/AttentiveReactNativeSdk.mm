@@ -25,10 +25,14 @@ RCT_EXPORT_METHOD(initialize:(NSDictionary*)configuration) {
 }
 
 RCT_EXPORT_METHOD(triggerCreative) {
+  [self triggerCreative:nil];
+}
+
+RCT_EXPORT_METHOD(triggerCreative:(NSString *)creativeId) {
   dispatch_async(dispatch_get_main_queue(), ^{
     UIWindow *window = [[UIApplication sharedApplication] keyWindow];
     UIView *topView = window.rootViewController.view;
-    [self->_sdk trigger:topView];
+    [self->_sdk trigger:topView creativeId:creativeId];
   });
 }
 

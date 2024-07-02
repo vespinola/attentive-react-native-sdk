@@ -1,7 +1,7 @@
 PODS:
-  - attentive-ios-sdk (0.6.0)
+  - attentive-ios-sdk (1.0.0-beta.2)
   - attentive-react-native-sdk (0.4.2):
-    - attentive-ios-sdk (= 0.6.0)
+    - attentive-ios-sdk (= 1.0.0-beta.2)
     - React-Core
   - boost (1.76.0)
   - CocoaAsyncSocket (7.6.5)
@@ -588,8 +588,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
-  attentive-ios-sdk: 475b3ce058a27cacf14d2b10eda8aa0f0a0285af
-  attentive-react-native-sdk: b986a0bbdcc706b1b4be48bf6d8c0d099a03aec4
+  attentive-ios-sdk: 03ddf2cb9d028cd6d816a69ac0e0400f15347cd3
+  attentive-react-native-sdk: c661e04ce6c0acddae8c02466334bf447206136f
   boost: 7dcd2de282d72e344012f7d6564d024930a6a440
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   DoubleConversion: 5189b271737e1565bdce30deb4a08d647e3f5f54
