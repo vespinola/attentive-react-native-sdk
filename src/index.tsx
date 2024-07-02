@@ -64,6 +64,10 @@ export class Attentive {
     AttentiveReactNativeSdk.destroyCreative();
   }
 
+  static updateDomain(domain: string): void {
+    AttentiveReactNativeSdk.updateDomain(domain);
+  }
+
   static recordProductViewEvent(productViewEvent: ProductViewEvent): void {
     AttentiveReactNativeSdk.recordProductViewEvent(productViewEvent);
   }

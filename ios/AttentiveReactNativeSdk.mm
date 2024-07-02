@@ -42,6 +42,10 @@ RCT_EXPORT_METHOD(destroyCreative) {
   });
 }
 
+RCT_EXPORT_METHOD(updateDomain:(NSString *)domain) {
+  [_sdk updateDomain:domain];
+}
+
 RCT_EXPORT_METHOD(identify:(NSDictionary*)identifiers) {
   // The dictionary already has the correct keys from the React code, so no translating necessary
   [_sdk identify:identifiers];

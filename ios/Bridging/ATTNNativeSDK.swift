@@ -28,6 +28,11 @@ import attentive_ios_sdk
     sdk.trigger(view, creativeId:creativeId)
   }
 
+  @objc(updateDomain:)
+  public func updateDomain(domain: String) {
+    sdk.update(domain:domain)
+  }
+
   @objc(identify:)
   public func identify(_ identifiers: [String: Any]) {
     sdk.identify(identifiers)
