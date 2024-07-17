@@ -22,6 +22,7 @@ const ProductScreen = ({}: ProductScreenProps) => {
           },
         },
       ],
+      deeplink: 'https://mydeeplink.com/products/32432423',
     };
   };
 

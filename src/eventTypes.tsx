@@ -24,10 +24,12 @@ export type Cart = {
 
 export type ProductViewEvent = {
   items: Item[];
+  deeplink?: string;
 };
 
 export type AddToCartEvent = {
   items: Item[];
+  deeplink?: string;
 };
 
 export type PurchaseEvent = {

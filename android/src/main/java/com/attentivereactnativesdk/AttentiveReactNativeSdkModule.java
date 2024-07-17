@@ -155,7 +155,8 @@ public class AttentiveReactNativeSdkModule extends ReactContextBaseJavaModule {
     Log.i(TAG, "Sending product viewed event");
 
     List<Item> items = buildItems(productViewAttrs.getArray("items"));
-    ProductViewEvent productViewEvent = new ProductViewEvent.Builder(items).build();
+    String deeplink = productViewAttrs.getString("deeplink");
+    ProductViewEvent productViewEvent = new ProductViewEvent.Builder(items).deeplink(deeplink).build();
 
     AttentiveEventTracker.getInstance().recordEvent(productViewEvent);
   }
@@ -176,7 +177,8 @@ public class AttentiveReactNativeSdkModule extends ReactContextBaseJavaModule {
     Log.i(TAG, "Sending add to cart event");
 
     List<Item> items = buildItems(addToCartAttrs.getArray("items"));
-    AddToCartEvent addToCartEvent = new AddToCartEvent.Builder(items).build();
+    String deeplink = addToCartAttrs.getString("deeplink");
+    AddToCartEvent addToCartEvent = new AddToCartEvent.Builder(items).deeplink(deeplink).build();
 
     AttentiveEventTracker.getInstance().recordEvent(addToCartEvent);
   }

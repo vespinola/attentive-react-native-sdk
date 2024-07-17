@@ -49,14 +49,16 @@ public extension ATTNNativeSDK {
   @objc
   func recordAddToCartEvent(_ attributes: [String: Any]) {
     let items = parseItems(attributes["items"] as? [[String : Any]] ?? [])
-    let event = ATTNAddToCartEvent(items: items)
+    let deeplink = attributes["deeplink"] as? String ?? ""
+    let event = ATTNAddToCartEvent(items: items, deeplink: deeplink)
     ATTNEventTracker.sharedInstance()?.record(event: event)
   }
 
   @objc
   func recordProductViewEvent(_ attributes: [String: Any]) {
     let items = parseItems(attributes["items"] as? [[String : Any]] ?? [])
-    let event = ATTNProductViewEvent(items: items)
+    let deeplink = attributes["deeplink"] as? String ?? ""
+    let event = ATTNProductViewEvent(items: items, deeplink: deeplink)
     ATTNEventTracker.sharedInstance()?.record(event: event)
   }
 
