@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
 
   s.source_files = "ios/**/*.{h,m,mm,swift}"
 
-  s.dependency 'attentive-ios-sdk', '1.0.0-beta.5'
+  s.dependency 'attentive-ios-sdk', '1.0.0'
   s.ios.deployment_target = '14.0'
   s.swift_versions = ['5']
   s.dependency "React-Core"
