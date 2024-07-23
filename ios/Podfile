@@ -1,7 +1,7 @@
 require_relative '../node_modules/react-native/scripts/react_native_pods'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
-platform :ios, '14.0'
+platform :ios, min_ios_version_supported
 prepare_react_native_project!
 
 # If you are using a `react-native-flipper` your iOS build will fail when `NO_FLIPPER=1` is set.
@@ -21,11 +21,14 @@ if linkage != nil
   use_frameworks! :linkage => linkage.to_sym
 end
 
-target 'AttentiveReactNativeSdkExample' do
+target 'AttentiveReactNativeSdk' do
   config = use_native_modules!
 
   # Flags change depending on the env values.
   flags = get_default_flags()
+
+  # Ensure Swift support
+  pod 'attentive-ios-sdk', '0.6.0'
 
   use_react_native!(
     :path => config[:reactNativePath],
@@ -42,11 +45,6 @@ target 'AttentiveReactNativeSdkExample' do
     # An absolute path to your application root.
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
-
-  target 'AttentiveReactNativeSdkExampleTests' do
-    inherit! :complete
-    # Pods for testing
-  end
 
   post_install do |installer|
     react_native_post_install(

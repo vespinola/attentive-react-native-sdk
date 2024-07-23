@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.util.Log;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.attentive.androidsdk.AttentiveConfig;
 import com.attentive.androidsdk.AttentiveEventTracker;
@@ -57,13 +58,27 @@ public class AttentiveReactNativeSdkModule extends ReactContextBaseJavaModule {
     if (rawMode == null) {
       throw new IllegalArgumentException("The 'mode' parameter cannot be null.");
     }
+
     final String domain = config.getString("attentiveDomain");
-    attentiveConfig = new AttentiveConfig(domain, AttentiveConfig.Mode.valueOf(rawMode.toUpperCase(Locale.ROOT)), this.getReactApplicationContext());
+    final Boolean skipFatigue = config.hasKey("skipFatigueOnCreatives") ?
+      config.getBoolean("skipFatigueOnCreatives") : false;
+
+    attentiveConfig = new AttentiveConfig.Builder()
+        .context(this.getReactApplicationContext())
+        .domain(domain)
+        .mode(AttentiveConfig.Mode.valueOf(rawMode.toUpperCase(Locale.ROOT)))
+        .skipFatigueOnCreatives(skipFatigue)
+        .build();
     AttentiveEventTracker.getInstance().initialize(attentiveConfig);
   }
 
   @ReactMethod
   public void triggerCreative() {
+    this.triggerCreative(null);
+  }
+
+  @ReactMethod
+  public void triggerCreative(@Nullable String creativeId) {
     Log.i(TAG, "Native Attentive module was called to trigger the creative.");
     try {
       Activity currentActivity = getReactApplicationContext().getCurrentActivity();
@@ -73,7 +88,7 @@ public class AttentiveReactNativeSdkModule extends ReactContextBaseJavaModule {
         // The following calls edit the view hierarchy so they must run on the UI thread
         UiThreadUtil.runOnUiThread(() -> {
           creative = new Creative(attentiveConfig, rootView);
-          creative.trigger();
+          creative.trigger(null, creativeId);
         });
       } else {
         Log.w(TAG, "Could not trigger the Attentive Creative because the current Activity was null");
@@ -91,6 +106,11 @@ public class AttentiveReactNativeSdkModule extends ReactContextBaseJavaModule {
         creative = null;
       });
     }
+  }
+
+  @ReactMethod
+  public void updateDomain(String domain) {
+    attentiveConfig.changeDomain(domain);
   }
 
   @ReactMethod
@@ -135,7 +155,8 @@ public class AttentiveReactNativeSdkModule extends ReactContextBaseJavaModule {
     Log.i(TAG, "Sending product viewed event");
 
     List<Item> items = buildItems(productViewAttrs.getArray("items"));
-    ProductViewEvent productViewEvent = new ProductViewEvent.Builder(items).build();
+    String deeplink = productViewAttrs.getString("deeplink");
+    ProductViewEvent productViewEvent = new ProductViewEvent.Builder(items).deeplink(deeplink).build();
 
     AttentiveEventTracker.getInstance().recordEvent(productViewEvent);
   }
@@ -156,7 +177,8 @@ public class AttentiveReactNativeSdkModule extends ReactContextBaseJavaModule {
     Log.i(TAG, "Sending add to cart event");
 
     List<Item> items = buildItems(addToCartAttrs.getArray("items"));
-    AddToCartEvent addToCartEvent = new AddToCartEvent.Builder(items).build();
+    String deeplink = addToCartAttrs.getString("deeplink");
+    AddToCartEvent addToCartEvent = new AddToCartEvent.Builder(items).deeplink(deeplink).build();
 
     AttentiveEventTracker.getInstance().recordEvent(addToCartEvent);
   }

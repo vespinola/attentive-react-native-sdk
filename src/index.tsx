@@ -31,6 +31,7 @@ export enum Mode {
 export type AttentiveConfiguration = {
   attentiveDomain: string;
   mode: Mode;
+  skipFatigueOnCreatives?: boolean;
 };
 
 export type UserIdentifiers = {
@@ -55,12 +56,16 @@ export class Attentive {
     AttentiveReactNativeSdk.clearUser();
   }
 
-  static triggerCreative(): void {
-    AttentiveReactNativeSdk.triggerCreative();
+  static triggerCreative(creativeId: string | null = null): void {
+    AttentiveReactNativeSdk.triggerCreative(creativeId);
   }
 
   static destroyCreative(): void {
     AttentiveReactNativeSdk.destroyCreative();
+  }
+
+  static updateDomain(domain: string): void {
+    AttentiveReactNativeSdk.updateDomain(domain);
   }
 
   static recordProductViewEvent(productViewEvent: ProductViewEvent): void {
